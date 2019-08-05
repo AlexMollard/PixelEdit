@@ -8,3 +8,13 @@ C:\Users\s191067\source\repos\PixelArt\PixelArt\obj\Debug\PixelArt.csproj.CoreCo
 C:\Users\s191067\source\repos\PixelArt\PixelArt\obj\Debug\PixelArt.exe
 C:\Users\s191067\source\repos\PixelArt\PixelArt\obj\Debug\PixelArt.pdb
 C:\Users\s191067\source\repos\PixelArt\PixelArt\obj\Debug\PixelArt.PixelEdit.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\bin\Debug\PixelArt.exe.config
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\bin\Debug\PixelArt.exe
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\bin\Debug\PixelArt.pdb
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.csprojAssemblyReference.cache
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.PixelEdit.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.Properties.Resources.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.csproj.GenerateResource.cache
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.csproj.CoreCompileInputs.cache
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.exe
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.pdb
