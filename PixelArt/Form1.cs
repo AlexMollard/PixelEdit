@@ -6,30 +6,82 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PixelArt
 {
+
 	public partial class PixelEdit : Form
 	{
 		private string _LastFileName = "";
 		Color _SelectedColour = Color.Black;
 
+		Timer _GameTimer = new Timer();
+
+
+		int _CurrentZoom = 1;
+		int _BrushSize = 1;
+
+		//New Sizes
+		int _NewSizeX = 32;
+		int _NewSizeY = 32;
+		int testingint = 0;
+
+
 		public PixelEdit()
 		{
 			InitializeComponent();
+
+
+			typeof(Panel).InvokeMember("DoubleBuffered",
+			BindingFlags.SetProperty
+			| BindingFlags.Instance
+			| BindingFlags.NonPublic,
+			null, EditingSpace, new object[] { true });
+
+			_GameTimer.Interval = 300;
+			_GameTimer.Tick += Update;
+			_GameTimer.Start();
+		}
+
+		private void Update(object sender, EventArgs e)
+		{
+			EditingSpace.Refresh();
+			testingint++;
+			TestingLabel.Text = Convert.ToString(testingint);
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
-			Console.WriteLine("Wassup");
+			EditingSpace.AutoScrollMinSize = new Size();
 		}
 
 		private void pictureBox5_Click(object sender, EventArgs e) // NewFile
 		{
-			
+			NewImage _Settings = new NewImage();
+			_Settings.ShowDialog();
+
+			_NewSizeX = Convert.ToInt32(_Settings.WidthTextBox.Text);
+			_NewSizeY = Convert.ToInt32(_Settings.HeightTextBox.Text);
+			if (_NewSizeX > 0 && _NewSizeY > 0)
+			{
+
+			Bitmap _NewImage = new Bitmap(_NewSizeX, _NewSizeY);
+			Graphics _GraphicImage = Graphics.FromImage(_NewImage);
+			Brush _Brush = new SolidBrush(_SelectedColour);
+
+			_GraphicImage.FillRectangle(_Brush, 0,0,_NewSizeX,_NewSizeY);
+
+			_GraphicImage.Dispose();
+
+			EditingSpace.BackgroundImage = _NewImage;
+			}
+
+			EditingSpace.Refresh();
+
 		}
 
 		private void pictureBox4_Click(object sender, EventArgs e) // SaveFile
@@ -37,7 +89,7 @@ namespace PixelArt
 			if (_LastFileName == "")
 				Save();
 			else
-				panel1.BackgroundImage.Save(_LastFileName);
+				EditingSpace.BackgroundImage.Save(_LastFileName);
 		}
 
 		private void Save()
@@ -50,7 +102,7 @@ namespace PixelArt
 			{
 				_LastFileName = saveWindow.FileName;
 
-				panel1.BackgroundImage.Save(_LastFileName);
+				EditingSpace.BackgroundImage.Save(_LastFileName);
 			}
 		}
 
@@ -66,36 +118,26 @@ namespace PixelArt
 				string fileName = openFile.FileName;
 				Bitmap myImage = new Bitmap(fileName);
 
-				panel1.BackgroundImage = myImage;
+				EditingSpace.BackgroundImage = myImage;
 			}
 		}
 
-		private void panel1_Paint(object sender, PaintEventArgs e)
-		{
-			Graphics renderer = e.Graphics;
-
-			SolidBrush brush = new SolidBrush(Color.Red);
-
-			Rectangle _Box = new Rectangle(MousePosition.X, MousePosition.Y, 0, 0);
-
-			renderer.FillRectangle(brush, _Box);
-
-		}
 
 		private void button1_Click(object sender, EventArgs e) // Scale up 25%
 		{
-			if (panel1.BackgroundImage != null)
+			if (EditingSpace.BackgroundImage != null)
 			{
-				panel1.BackgroundImage = ScaleByPercent(panel1.BackgroundImage, 125);
+				EditingSpace.BackgroundImage = ScaleByPercent(EditingSpace.BackgroundImage, 125);
+				//((Bitmap)EditingSpace.BackgroundImage).
 			}
 		}
 
 
 		private void button2_Click(object sender, EventArgs e) // Scale down 25%
 		{
-			if (panel1.BackgroundImage != null)
+			if (EditingSpace.BackgroundImage != null)
 			{
-				panel1.BackgroundImage = ScaleByPercent(panel1.BackgroundImage, 75);
+				EditingSpace.BackgroundImage = ScaleByPercent(EditingSpace.BackgroundImage, 75);
 			}
 		}
 
@@ -133,17 +175,84 @@ namespace PixelArt
 			colorPicker.ShowDialog();
 
 			_SelectedColour = colorPicker.Color;
+			SelectedColourIndicator.BackColor = _SelectedColour;
 		}
 
 		private void panel1_Click(object sender, EventArgs e)
 		{
-			Graphics _GraphicImage = Graphics.FromImage(panel1.BackgroundImage);
-			Point _X = new Point(((MouseEventArgs)e).Location.X);
-			Point _Y = new Point(((MouseEventArgs)e).Location.Y);
-			Pen _Pen = new Pen(_SelectedColour);
-			_GraphicImage.DrawLine(_Pen,_X,_Y);
-			_GraphicImage.Dispose();
-			panel1.Refresh();
+
+		}
+
+		private void EditingSpace_MouseDown(object sender, MouseEventArgs e)
+		{
+
+		}
+
+		private void panel1_Paint_1(object sender, PaintEventArgs e)
+		{
+			SelectedColourIndicator.BackColor = _SelectedColour;
+		}
+
+		private void ZoomInButton_Click(object sender, EventArgs e)
+		{
+
+			int _Zoom = _CurrentZoom += 1;
+
+			_CurrentZoom = _Zoom;
+
+			EditingSpace.AutoScrollMinSize = new Size(EditingSpace.BackgroundImage.Width * _Zoom, EditingSpace.BackgroundImage.Height * _Zoom);
+		}
+
+		private void EditingSpace_Paint(object sender, PaintEventArgs e)
+		{
+			//Drawing
+			if (EditingSpace.BackgroundImage != null)
+			{
+				Graphics _GraphicImage = Graphics.FromImage(EditingSpace.BackgroundImage);
+				Brush _Pen = new SolidBrush(_SelectedColour);
+				_GraphicImage.FillRectangle(_Pen, GetMousePos(MousePosition).X - _BrushSize / 2, GetMousePos(MousePosition).Y - _BrushSize / 2, _BrushSize, _BrushSize);
+				_GraphicImage.Dispose();
+
+				//EditingSpace.Refresh();
+			}
+
+			//Zoom image
+			if (EditingSpace.BackgroundImage != null)
+			{
+				using (Matrix mx = new Matrix(_CurrentZoom, 0, 0, _CurrentZoom, 0, 0))
+				{
+					mx.Translate(EditingSpace.AutoScrollPosition.X / _CurrentZoom, EditingSpace.AutoScrollPosition.Y / _CurrentZoom);
+					e.Graphics.Transform = mx;
+					e.Graphics.DrawImage(EditingSpace.BackgroundImage, new Point(0, 0));
+				}
+				//EditingSpace.Refresh();
+			}
+		}
+
+		private void ZoomOutButton_Click(object sender, EventArgs e)
+		{
+			int _Zoom = _CurrentZoom -= 1;
+
+			_CurrentZoom = _Zoom;
+
+
+			EditingSpace.AutoScrollMinSize = new Size(EditingSpace.BackgroundImage.Width * _Zoom, EditingSpace.BackgroundImage.Height * _Zoom);
+		}
+
+		protected Point GetMousePos(Point e)
+		{
+			Matrix mx = new Matrix(_CurrentZoom, 0, 0, _CurrentZoom, 0, 0);
+			mx.Translate(this.AutoScrollPosition.X * (1.0f / _CurrentZoom), this.AutoScrollPosition.X * (1.0f / _CurrentZoom));
+			mx.Invert();
+			Point[] p = new Point[] { new Point(e.X, e.Y) };
+			mx.TransformPoints(p);
+			return p[0];
+		}
+
+		private void BrushSizeBar_Scroll(object sender, EventArgs e)
+		{
+			SizeIndicator.Text = Convert.ToString(BrushSizeBar.Value);
+			_BrushSize = BrushSizeBar.Value;
 		}
 	}
 }

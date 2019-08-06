@@ -29,22 +29,84 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PixelEdit));
+			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+			this.button1 = new System.Windows.Forms.Button();
+			this.button2 = new System.Windows.Forms.Button();
+			this.button3 = new System.Windows.Forms.Button();
+			this.EditingSpace = new System.Windows.Forms.Panel();
+			this.TestingLabel = new System.Windows.Forms.Label();
 			this.pictureBox6 = new System.Windows.Forms.PictureBox();
 			this.pictureBox5 = new System.Windows.Forms.PictureBox();
 			this.pictureBox4 = new System.Windows.Forms.PictureBox();
 			this.pictureBox3 = new System.Windows.Forms.PictureBox();
 			this.pictureBox2 = new System.Windows.Forms.PictureBox();
-			this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button3 = new System.Windows.Forms.Button();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.SelectedColourIndicator = new System.Windows.Forms.Panel();
+			this.ZoomInButton = new System.Windows.Forms.Button();
+			this.ZoomOutButton = new System.Windows.Forms.Button();
+			this.BrushSizeBar = new System.Windows.Forms.TrackBar();
+			this.label1 = new System.Windows.Forms.Label();
+			this.SizeIndicator = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.BrushSizeBar)).BeginInit();
 			this.SuspendLayout();
+			// 
+			// button1
+			// 
+			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.button1.Location = new System.Drawing.Point(632, 361);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 11;
+			this.button1.Text = "Scale Up";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// button2
+			// 
+			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.button2.Location = new System.Drawing.Point(713, 361);
+			this.button2.Name = "button2";
+			this.button2.Size = new System.Drawing.Size(75, 23);
+			this.button2.TabIndex = 12;
+			this.button2.Text = "Scale Down";
+			this.button2.UseVisualStyleBackColor = true;
+			this.button2.Click += new System.EventHandler(this.button2_Click);
+			// 
+			// button3
+			// 
+			this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.button3.Location = new System.Drawing.Point(642, 13);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(83, 40);
+			this.button3.TabIndex = 13;
+			this.button3.Text = "Colour";
+			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
+			// 
+			// EditingSpace
+			// 
+			this.EditingSpace.BackColor = System.Drawing.Color.AliceBlue;
+			this.EditingSpace.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.EditingSpace.Location = new System.Drawing.Point(192, 13);
+			this.EditingSpace.Name = "EditingSpace";
+			this.EditingSpace.Size = new System.Drawing.Size(434, 371);
+			this.EditingSpace.TabIndex = 14;
+			this.EditingSpace.Click += new System.EventHandler(this.panel1_Click);
+			this.EditingSpace.Paint += new System.Windows.Forms.PaintEventHandler(this.EditingSpace_Paint);
+			this.EditingSpace.MouseDown += new System.Windows.Forms.MouseEventHandler(this.EditingSpace_MouseDown);
+			// 
+			// TestingLabel
+			// 
+			this.TestingLabel.AutoSize = true;
+			this.TestingLabel.Location = new System.Drawing.Point(721, 198);
+			this.TestingLabel.Name = "TestingLabel";
+			this.TestingLabel.Size = new System.Drawing.Size(67, 13);
+			this.TestingLabel.TabIndex = 15;
+			this.TestingLabel.Text = "Testing label";
 			// 
 			// pictureBox6
 			// 
@@ -108,48 +170,64 @@
 			this.pictureBox2.TabIndex = 6;
 			this.pictureBox2.TabStop = false;
 			// 
-			// button1
+			// SelectedColourIndicator
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(632, 361);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
-			this.button1.TabIndex = 11;
-			this.button1.Text = "Scale Up";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.SelectedColourIndicator.Location = new System.Drawing.Point(731, 13);
+			this.SelectedColourIndicator.Name = "SelectedColourIndicator";
+			this.SelectedColourIndicator.Size = new System.Drawing.Size(57, 40);
+			this.SelectedColourIndicator.TabIndex = 16;
+			this.SelectedColourIndicator.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint_1);
 			// 
-			// button2
+			// ZoomInButton
 			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.Location = new System.Drawing.Point(713, 361);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
-			this.button2.TabIndex = 12;
-			this.button2.Text = "Scale Down";
-			this.button2.UseVisualStyleBackColor = true;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.ZoomInButton.Location = new System.Drawing.Point(632, 332);
+			this.ZoomInButton.Name = "ZoomInButton";
+			this.ZoomInButton.Size = new System.Drawing.Size(75, 23);
+			this.ZoomInButton.TabIndex = 17;
+			this.ZoomInButton.Text = "Zoom In";
+			this.ZoomInButton.UseVisualStyleBackColor = true;
+			this.ZoomInButton.Click += new System.EventHandler(this.ZoomInButton_Click);
 			// 
-			// button3
+			// ZoomOutButton
 			// 
-			this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.button3.Location = new System.Drawing.Point(642, 13);
-			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(146, 82);
-			this.button3.TabIndex = 13;
-			this.button3.Text = "Colour";
-			this.button3.UseVisualStyleBackColor = true;
-			this.button3.Click += new System.EventHandler(this.button3_Click);
+			this.ZoomOutButton.Location = new System.Drawing.Point(713, 332);
+			this.ZoomOutButton.Name = "ZoomOutButton";
+			this.ZoomOutButton.Size = new System.Drawing.Size(75, 23);
+			this.ZoomOutButton.TabIndex = 18;
+			this.ZoomOutButton.Text = "Zoom Out";
+			this.ZoomOutButton.UseVisualStyleBackColor = true;
+			this.ZoomOutButton.Click += new System.EventHandler(this.ZoomOutButton_Click);
 			// 
-			// panel1
+			// BrushSizeBar
 			// 
-			this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.panel1.Location = new System.Drawing.Point(192, 13);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(434, 371);
-			this.panel1.TabIndex = 14;
-			this.panel1.Click += new System.EventHandler(this.panel1_Click);
-			this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+			this.BrushSizeBar.Location = new System.Drawing.Point(642, 60);
+			this.BrushSizeBar.Maximum = 20;
+			this.BrushSizeBar.Minimum = 1;
+			this.BrushSizeBar.Name = "BrushSizeBar";
+			this.BrushSizeBar.Size = new System.Drawing.Size(146, 45);
+			this.BrushSizeBar.TabIndex = 19;
+			this.BrushSizeBar.Value = 1;
+			this.BrushSizeBar.Scroll += new System.EventHandler(this.BrushSizeBar_Scroll);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Location = new System.Drawing.Point(653, 91);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(44, 17);
+			this.label1.TabIndex = 20;
+			this.label1.Text = "Size:";
+			// 
+			// SizeIndicator
+			// 
+			this.SizeIndicator.AutoSize = true;
+			this.SizeIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.SizeIndicator.Location = new System.Drawing.Point(694, 91);
+			this.SizeIndicator.Name = "SizeIndicator";
+			this.SizeIndicator.Size = new System.Drawing.Size(17, 17);
+			this.SizeIndicator.TabIndex = 21;
+			this.SizeIndicator.Text = "1";
 			// 
 			// PixelEdit
 			// 
@@ -157,7 +235,14 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.DodgerBlue;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.SizeIndicator);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.BrushSizeBar);
+			this.Controls.Add(this.ZoomOutButton);
+			this.Controls.Add(this.ZoomInButton);
+			this.Controls.Add(this.SelectedColourIndicator);
+			this.Controls.Add(this.TestingLabel);
+			this.Controls.Add(this.EditingSpace);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
@@ -177,7 +262,9 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.BrushSizeBar)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -191,7 +278,14 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button button3;
-		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Panel EditingSpace;
+		private System.Windows.Forms.Label TestingLabel;
+		private System.Windows.Forms.Panel SelectedColourIndicator;
+		private System.Windows.Forms.Button ZoomInButton;
+		private System.Windows.Forms.Button ZoomOutButton;
+		private System.Windows.Forms.TrackBar BrushSizeBar;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label SizeIndicator;
 	}
 }
 
