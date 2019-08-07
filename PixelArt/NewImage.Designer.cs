@@ -103,7 +103,7 @@
 			this.WidthTextBox.Size = new System.Drawing.Size(103, 20);
 			this.WidthTextBox.TabIndex = 7;
 			this.WidthTextBox.Value = new decimal(new int[] {
-            64,
+            615,
             0,
             0,
             0});
@@ -120,7 +120,7 @@
 			this.HeightTextBox.Size = new System.Drawing.Size(103, 20);
 			this.HeightTextBox.TabIndex = 8;
 			this.HeightTextBox.Value = new decimal(new int[] {
-            64,
+            371,
             0,
             0,
             0});
@@ -142,6 +142,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "NewImage";
 			this.Load += new System.EventHandler(this.NewImage_Load);
+			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.NewImage_MouseDown);
 			((System.ComponentModel.ISupportInitialize)(this.WidthTextBox)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.HeightTextBox)).EndInit();
 			this.ResumeLayout(false);

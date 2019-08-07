@@ -19,3 +19,4 @@ C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\Pix
 C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.exe
 C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.pdb
 C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.NewImage.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.Debugging.resources

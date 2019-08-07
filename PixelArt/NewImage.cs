@@ -60,5 +60,10 @@ namespace PixelArt
 		{
 
 		}
+
+		private void NewImage_MouseDown(object sender, MouseEventArgs e)
+		{
+
+		}
 	}
 }

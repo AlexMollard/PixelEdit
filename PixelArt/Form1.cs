@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -17,41 +18,101 @@ namespace PixelArt
 	public partial class PixelEdit : Form
 	{
 		private string _LastFileName = "";
-		Color _SelectedColour = Color.Black;
+		Color _SelectedColour = Color.White;
 
-		Timer _GameTimer = new Timer();
+		System.Windows.Forms.Timer _GameTimer = new System.Windows.Forms.Timer();
 
-
+		bool _Drawing = false;
 		int _CurrentZoom = 1;
 		int _BrushSize = 1;
 
 		//New Sizes
 		int _NewSizeX = 32;
 		int _NewSizeY = 32;
-		int testingint = 0;
+		int _CurrentFrame = 0;
 
+		bool _Debugger = false;
+
+
+		string _DebugMouseXPos = "";
+		string _DebugMouseYPos = "";
+
+		Vector2 _PrevMousePos;
+		Vector2 _CurrentMousePos;
+
+		ToolBar _ToolBar = null;
 
 		public PixelEdit()
 		{
+			// Create Form
 			InitializeComponent();
 
+			// Create Tool Bar
+			_ToolBar = new ToolBar(EditingSpace, ZoomInButton, ZoomOutButton, button1, button2, SelectedColourIndicator);
 
+			// Set up double buffer
 			typeof(Panel).InvokeMember("DoubleBuffered",
 			BindingFlags.SetProperty
 			| BindingFlags.Instance
 			| BindingFlags.NonPublic,
 			null, EditingSpace, new object[] { true });
 
-			_GameTimer.Interval = 300;
+			// Setup Update function
+			_GameTimer.Interval = 1;
 			_GameTimer.Tick += Update;
 			_GameTimer.Start();
+		}
+
+		Debugging _FormDebugging = new Debugging();
+		public void StartDebug()
+		{
+			Application.Run(_FormDebugging);
+		}
+
+		public void TransferData(string text1, string text2, string text3)
+		{
+			if (_FormDebugging.MouseX.InvokeRequired)
+				_FormDebugging.MouseX.Invoke((MethodInvoker)delegate ()
+				{
+					TransferData(text1, text2, text3);
+				});
+			else
+			{
+				_FormDebugging.MouseX.Text = text1;
+				_FormDebugging.MouseY.Text = text2;
+				_FormDebugging.TestingLabel.Text = text3;
+			}
+		}
+
+		public void Close()
+		{
+			if (_FormDebugging.MouseX.InvokeRequired)
+				_FormDebugging.MouseX.Invoke((MethodInvoker)delegate ()
+				{
+					Close();
+				});
+			else
+				_FormDebugging.Close();
+		}
+
+		private void button3_Click_1(object sender, EventArgs e) //Debug Button
+		{
+			//Thread Stuff
+			Thread _FrmDebug = new Thread(new ThreadStart(StartDebug));
+			_FrmDebug.Start();
+			_Debugger = true;
 		}
 
 		private void Update(object sender, EventArgs e)
 		{
 			EditingSpace.Refresh();
-			testingint++;
-			TestingLabel.Text = Convert.ToString(testingint);
+			_CurrentFrame++;
+
+			if (_Debugger)
+			{
+				UpdateDebugging();
+			}
+
 		}
 
 		private void Form1_Load(object sender, EventArgs e)
@@ -122,85 +183,11 @@ namespace PixelArt
 			}
 		}
 
-
-		private void button1_Click(object sender, EventArgs e) // Scale up 25%
-		{
-			if (EditingSpace.BackgroundImage != null)
-			{
-				EditingSpace.BackgroundImage = ScaleByPercent(EditingSpace.BackgroundImage, 125);
-				//((Bitmap)EditingSpace.BackgroundImage).
-			}
-		}
-
-
-		private void button2_Click(object sender, EventArgs e) // Scale down 25%
-		{
-			if (EditingSpace.BackgroundImage != null)
-			{
-				EditingSpace.BackgroundImage = ScaleByPercent(EditingSpace.BackgroundImage, 75);
-			}
-		}
-
-		static Image ScaleByPercent(Image pixelImage, int percent)
-		{
-			float _Percent = ((float)percent / 100);
-
-			int _SourceWidth = pixelImage.Width;
-			int _SourceHeight = pixelImage.Height;
-			int _SourceX = 0;
-			int _SourceY = 0;
-
-			int _DestX = 0;
-			int _DestY = 0;
-			int _DestWidth = (int)(_SourceWidth * _Percent);
-			int _DestHeight = (int)(_SourceHeight * _Percent);
-
-			Bitmap _Image = new Bitmap(_DestWidth, _DestHeight, PixelFormat.Format32bppArgb);
-			_Image.SetResolution(pixelImage.HorizontalResolution, pixelImage.VerticalResolution);
-
-			Graphics _GraphicImage = Graphics.FromImage(_Image);
-			_GraphicImage.InterpolationMode = InterpolationMode.NearestNeighbor;
-
-			_GraphicImage.DrawImage(pixelImage, new Rectangle(_DestX, _DestY, _DestWidth, _DestHeight), new Rectangle(_SourceX, _SourceY, _SourceWidth, _SourceHeight), GraphicsUnit.Pixel);
-			_GraphicImage.Dispose();
-
-			return _Image;
-		}
-
-		private void button3_Click(object sender, EventArgs e)
-		{
-			ColorDialog colorPicker = new ColorDialog();
-
-			colorPicker.FullOpen = true;
-			colorPicker.ShowDialog();
-
-			_SelectedColour = colorPicker.Color;
-			SelectedColourIndicator.BackColor = _SelectedColour;
-		}
-
-		private void panel1_Click(object sender, EventArgs e)
-		{
-
-		}
-
 		private void EditingSpace_MouseDown(object sender, MouseEventArgs e)
 		{
-
-		}
-
-		private void panel1_Paint_1(object sender, PaintEventArgs e)
-		{
-			SelectedColourIndicator.BackColor = _SelectedColour;
-		}
-
-		private void ZoomInButton_Click(object sender, EventArgs e)
-		{
-
-			int _Zoom = _CurrentZoom += 1;
-
-			_CurrentZoom = _Zoom;
-
-			EditingSpace.AutoScrollMinSize = new Size(EditingSpace.BackgroundImage.Width * _Zoom, EditingSpace.BackgroundImage.Height * _Zoom);
+			_Drawing = true;
+			_CurrentMousePos = new Vector2(GetMousePos(e.Location).X, GetMousePos(e.Location).Y);
+			_PrevMousePos = _CurrentMousePos;
 		}
 
 		private void EditingSpace_Paint(object sender, PaintEventArgs e)
@@ -208,35 +195,32 @@ namespace PixelArt
 			//Drawing
 			if (EditingSpace.BackgroundImage != null)
 			{
-				Graphics _GraphicImage = Graphics.FromImage(EditingSpace.BackgroundImage);
-				Brush _Pen = new SolidBrush(_SelectedColour);
-				_GraphicImage.FillRectangle(_Pen, GetMousePos(MousePosition).X - _BrushSize / 2, GetMousePos(MousePosition).Y - _BrushSize / 2, _BrushSize, _BrushSize);
-				_GraphicImage.Dispose();
+				if (_Drawing)
+				{
+					if(_PrevMousePos.x <= 0.0f && _PrevMousePos.y <= 0.0f)
+					{
+						_PrevMousePos = _CurrentMousePos;
+					}
 
-				//EditingSpace.Refresh();
-			}
+					Graphics _GraphicImage = Graphics.FromImage(EditingSpace.BackgroundImage);
+					Pen _Pen = new Pen(color: _SelectedColour, width: _BrushSize);
 
-			//Zoom image
-			if (EditingSpace.BackgroundImage != null)
-			{
+					_GraphicImage.DrawLine(_Pen,_PrevMousePos.x,_PrevMousePos.y,_CurrentMousePos.x,_CurrentMousePos.y);
+					_GraphicImage.Dispose();
+
+					_PrevMousePos = _CurrentMousePos;
+				}
+
+				//Zoom image
 				using (Matrix mx = new Matrix(_CurrentZoom, 0, 0, _CurrentZoom, 0, 0))
 				{
 					mx.Translate(EditingSpace.AutoScrollPosition.X / _CurrentZoom, EditingSpace.AutoScrollPosition.Y / _CurrentZoom);
 					e.Graphics.Transform = mx;
 					e.Graphics.DrawImage(EditingSpace.BackgroundImage, new Point(0, 0));
 				}
-				//EditingSpace.Refresh();
+		
 			}
-		}
 
-		private void ZoomOutButton_Click(object sender, EventArgs e)
-		{
-			int _Zoom = _CurrentZoom -= 1;
-
-			_CurrentZoom = _Zoom;
-
-
-			EditingSpace.AutoScrollMinSize = new Size(EditingSpace.BackgroundImage.Width * _Zoom, EditingSpace.BackgroundImage.Height * _Zoom);
 		}
 
 		protected Point GetMousePos(Point e)
@@ -249,10 +233,93 @@ namespace PixelArt
 			return p[0];
 		}
 
+		private void EditingSpace_MouseUp(object sender, MouseEventArgs e)
+		{
+			_Drawing = false;
+		}
+
+		private void EditingSpace_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (_Drawing)
+			{
+				_CurrentMousePos = new Vector2(GetMousePos(e.Location).X, GetMousePos(e.Location).Y);
+			}
+			_DebugMouseXPos = Convert.ToString(GetMousePos(e.Location).X);
+			_DebugMouseYPos = Convert.ToString(GetMousePos(e.Location).Y);
+		}
+
+		private void SelectedColourIndicator_MouseDown(object sender, MouseEventArgs e)
+		{
+			ColorDialog colorPicker = new ColorDialog();
+
+			colorPicker.FullOpen = true;
+			colorPicker.ShowDialog();
+
+			_SelectedColour = colorPicker.Color;
+			SelectedColourIndicator.BackColor = _SelectedColour;
+		}
+
+		void UpdateDebugging()
+		{
+			TransferData(_DebugMouseXPos, _DebugMouseYPos, Convert.ToString(_CurrentFrame));
+		}
+
+		private void PixelEdit_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			Close();
+		}
+
+		private void EditingSpace_DragDrop(object sender, DragEventArgs e)
+		{
+			EditingSpace.BackgroundImage = (Image)e.Data.GetData(DataFormats.Bitmap);
+		}
+
+		private void EditingSpace_DragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.Bitmap))
+				e.Effect = DragDropEffects.Copy;
+			else
+				e.Effect = DragDropEffects.None;
+		}
+
+		//--------------------------------------------------
+		///	TOOL BAR
+		//--------------------------------------------------
+
+		// Scale
+		private void button1_Click(object sender, EventArgs e) // Scale up
+		{
+			_ToolBar.ScaleUp(sender, e);
+		}
+
+		private void button2_Click(object sender, EventArgs e) // Scale down
+		{
+			_ToolBar.ScaleDown(sender,e);
+		}
+
+
+		// Zoom
+		private void ZoomInButton_Click(object sender, EventArgs e) // Zoom In
+		{
+			_ToolBar.ZoomIn(sender, e);
+		}
+
+		private void ZoomOutButton_Click(object sender, EventArgs e) // Zoom Out
+		{
+			_ToolBar.ZoomOut(sender, e);
+		}
+
+		// Brush Size
 		private void BrushSizeBar_Scroll(object sender, EventArgs e)
 		{
 			SizeIndicator.Text = Convert.ToString(BrushSizeBar.Value);
 			_BrushSize = BrushSizeBar.Value;
+		}
+
+		// Colour Indicator
+		private void panel1_Paint_1(object sender, PaintEventArgs e)
+		{
+			SelectedColourIndicator.BackColor = _SelectedColour;
 		}
 	}
 }
