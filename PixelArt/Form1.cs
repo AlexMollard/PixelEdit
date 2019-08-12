@@ -122,7 +122,7 @@ namespace PixelArt
 
 		private void pictureBox5_Click(object sender, EventArgs e) // NewFile
 		{
-			NewImage _Settings = new NewImage();
+			NewImage _Settings = new NewImage(EditingSpace.Width,EditingSpace.Height);
 			_Settings.ShowDialog();
 
 			_NewSizeX = Convert.ToInt32(_Settings.WidthTextBox.Text);
@@ -211,15 +211,10 @@ namespace PixelArt
 					_PrevMousePos = _CurrentMousePos;
 				}
 
-				//Zoom image
-				using (Matrix mx = new Matrix(_CurrentZoom, 0, 0, _CurrentZoom, 0, 0))
-				{
-					mx.Translate(EditingSpace.AutoScrollPosition.X / _CurrentZoom, EditingSpace.AutoScrollPosition.Y / _CurrentZoom);
-					e.Graphics.Transform = mx;
-					e.Graphics.DrawImage(EditingSpace.BackgroundImage, new Point(0, 0));
-				}
-		
-			}
+                // Update Zoom
+               _CurrentZoom = _ToolBar.UpdateZoom(sender, e);
+
+            }
 
 		}
 
@@ -321,5 +316,28 @@ namespace PixelArt
 		{
 			SelectedColourIndicator.BackColor = _SelectedColour;
 		}
-	}
+
+        private void GridButton_Click(object sender, EventArgs e)
+        {
+            if (EditingSpace.BackgroundImage != null)
+            {
+                Bitmap _GridBitMap = new Bitmap(EditingSpace.BackgroundImage.Width, EditingSpace.BackgroundImage.Height);
+
+                Graphics _GridImage = Graphics.FromImage(_GridBitMap);
+                Pen _GridPen = new Pen(color: Color.Black, width: 1);
+
+                for (int i = 0; i < EditingSpace.BackgroundImage.Width; i += 2)
+                {
+                    _GridImage.DrawLine(_GridPen, i, 0, i, EditingSpace.BackgroundImage.Width);
+                }
+
+                for (int i = 0; i < EditingSpace.BackgroundImage.Height; i += 2)
+                {
+                    _GridImage.DrawLine(_GridPen, 0, i, EditingSpace.BackgroundImage.Height, i);
+                }
+
+                _GridImage.Dispose();
+            }
+        }
+    }
 }

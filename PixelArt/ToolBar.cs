@@ -98,7 +98,12 @@ namespace PixelArt
 			_CurrentZoom = _Zoom;
 
 			_PanelEditingSpace.AutoScrollMinSize = new Size(_PanelEditingSpace.BackgroundImage.Width * _Zoom, _PanelEditingSpace.BackgroundImage.Height * _Zoom);
-		}
+
+            if (_CurrentZoom < 1)
+            {
+                _CurrentZoom = 1;
+            }
+        }
 
 		public void ZoomOut(object sender, EventArgs e)
 		{
@@ -108,6 +113,25 @@ namespace PixelArt
 			_CurrentZoom = _Zoom;
 
 			_PanelEditingSpace.AutoScrollMinSize = new Size(_PanelEditingSpace.BackgroundImage.Width * _Zoom, _PanelEditingSpace.BackgroundImage.Height * _Zoom);
-		}
+
+            if (_CurrentZoom < 1)
+            {
+                _CurrentZoom = 1;
+            }
+        }
+
+        public int UpdateZoom(object sender, PaintEventArgs e)
+        {
+            // Update Zoom
+            using (Matrix mx = new Matrix(_CurrentZoom, 0, 0, _CurrentZoom, 0, 0))
+            {
+                mx.Translate(_PanelEditingSpace.AutoScrollPosition.X / _CurrentZoom, _PanelEditingSpace.AutoScrollPosition.Y / _CurrentZoom);
+                e.Graphics.Transform = mx;
+                e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor; 
+                e.Graphics.DrawImage(_PanelEditingSpace.BackgroundImage, new Point(x: 0, y: 0));
+            }
+
+            return _CurrentZoom;
+        }
 	}
 }

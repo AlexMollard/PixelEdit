@@ -20,3 +20,15 @@ C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\Pix
 C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.pdb
 C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.NewImage.resources
 C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.Debugging.resources
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\bin\Debug\PixelArt.exe.config
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\bin\Debug\PixelArt.exe
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\bin\Debug\PixelArt.pdb
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.csprojAssemblyReference.cache
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.Debugging.resources
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.PixelEdit.resources
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.NewImage.resources
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.Properties.Resources.resources
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.csproj.GenerateResource.cache
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.csproj.CoreCompileInputs.cache
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.exe
+C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelArt\obj\Debug\PixelArt.pdb

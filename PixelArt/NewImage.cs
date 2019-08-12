@@ -19,14 +19,18 @@ namespace PixelArt
 		decimal _HeightValue = 0;
 
 
-		public NewImage()
+		public NewImage(decimal _CurrentWidth, decimal _CurrentHeight)
 		{
 			InitializeComponent();
 
 			_GameTimer.Interval = 30;
 			_GameTimer.Tick += Update;
 			_GameTimer.Start();
-		}
+
+            WidthTextBox.Value = _CurrentWidth;
+            HeightTextBox.Value = _CurrentHeight;
+
+        }
 
 		private void Update(object sender, EventArgs e)
 		{
@@ -65,5 +69,10 @@ namespace PixelArt
 		{
 
 		}
-	}
+
+        private void WidthTextBox_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
 }
