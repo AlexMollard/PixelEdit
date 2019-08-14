@@ -14,6 +14,9 @@ namespace PixelEdits
 {
 	public partial class Form1 : Form
 	{
+        //Tools
+        private enum _Tool {_Pencil, _Brush, _Bucket, _Line, _Circle, _Square};
+
 		string _LastFileName = "";
 		bool _Editing = false;
 
@@ -31,9 +34,6 @@ namespace PixelEdits
 		// Mouse Postitions
 		Vector2 _PrevMousePos;
 		Vector2 _CurrentMousePos;
-
-		Point _TestA;
-		Point _TestB;
 
 		//Updater
 		System.Windows.Forms.Timer _Updater = new System.Windows.Forms.Timer();
@@ -146,6 +146,9 @@ namespace PixelEdits
 				Canvas.BackgroundImage = _NewImage;
 			}
 
+            SizeIndicatorPanel.BackColor = _SecondaryColour;
+            SizeIndicatorDot.BackColor = _p
+
 			Canvas.Refresh();
 		}
 
@@ -187,7 +190,7 @@ namespace PixelEdits
 
 		private void Canvas_Paint(object sender, PaintEventArgs e)
 		{
-			if (_Editing)
+			if (_Editing && Canvas.BackgroundImage != null)
 			{
 				if (_PrevMousePos.x <= 0.0f && _PrevMousePos.y <= 0.0f)
 				{
@@ -197,30 +200,7 @@ namespace PixelEdits
 				Graphics _GraphicImage = Graphics.FromImage(Canvas.BackgroundImage);
 				Pen _Pen = new Pen(color: _PrimaryColour, width: _ToolSize);
 
-				//_GraphicImage.DrawRectangle(_Pen, _PrevMousePos.x, _PrevMousePos.y, _CurrentMousePos.x, _CurrentMousePos.y);
-
-				GraphicsPath _Path = new GraphicsPath();
-				Point _point1 = new Point(Convert.ToInt32(_CurrentMousePos.x), Convert.ToInt32(_CurrentMousePos.y));
-				Point _point2 = new Point(Convert.ToInt32(_PrevMousePos.x), Convert.ToInt32(_PrevMousePos.y));
-
-				PointF[] _points = { _point1, _point2 };
-
-				//_Path.AddCurve(_points);
-
-				Size _Size = new Size(_ToolSize, _ToolSize);
-
-				Rectangle _Rectangle = new Rectangle(_point1, _Size);
-
-				//_Path.AddRectangle(_Rectangle);
-
-				for (int i = 0; i < 100; i++)
-				{
-				_Path.AddEllipse(_Rectangle);
-
-				}
-
-
-				_GraphicImage.DrawPath(_Pen, _Path);
+				_GraphicImage.DrawRectangle(_Pen, _PrevMousePos.x, _PrevMousePos.y, _CurrentMousePos.x, _CurrentMousePos.y);
 
 				_GraphicImage.Dispose();
 
@@ -230,57 +210,13 @@ namespace PixelEdits
 
 		private void Canvas_MouseDown(object sender, MouseEventArgs e)
 		{
-			//_Editing = true;
+			_Editing = true;
 			_PrevMousePos = _CurrentMousePos;
-			_TestA = e.Location;
 		}
 
 		private void Canvas_MouseUp(object sender, MouseEventArgs e)
 		{
 			_Editing = false;
-			_TestB = e.Location;
-
-			Point _TestC = new Point(50, 50);
-			Point _TestD = new Point(500, 500);
-
-			Graphics _GraphicImage = Graphics.FromImage(Canvas.BackgroundImage);
-			Pen _Pen = new Pen(color: _PrimaryColour, width: _ToolSize);
-
-			GraphicsPath _Path = new GraphicsPath();
-
-
-			//PointF[] _points = { _TestA, _TestB , _TestC , _TestD };
-
-			//_Path.AddCurve(_points);
-
-			//Size _Size = new Size(_ToolSize, _ToolSize);
-
-			//Rectangle _Rectangle = new Rectangle(_TestA, _Size);
-
-			//_Path.AddRectangle(_Rectangle);
-
-			//_Path.Warp(_points, _Rectangle);
-
-			//_Path.AddPolygon(_points);
-
-			//_Path.AddBeziers(_points);
-
-			FontFamily family = new FontFamily("Arial");
-
-			int fontStyle = (int)FontStyle.Bold;
-
-			Point _TestPointText = _TestA;
-
-
-
-			_Path.AddString("❤♥ \n JAMES \n IS \n WEEB", family, fontStyle, _ToolSize, _TestPointText, StringFormat.GenericDefault);
-
-			_GraphicImage.FillPath(Brushes.Black, _Path);
-	
-
-
-			_GraphicImage.Dispose();
-
 			_PrevMousePos = _CurrentMousePos;
 		}
 
