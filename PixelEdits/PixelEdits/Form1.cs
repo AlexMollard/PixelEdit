@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,6 +17,8 @@ namespace PixelEdits
 {
 	public partial class PixelEdit : Form
 	{
+
+
         //Tools
         private enum _Tool {_Pencil, _Brush, _Bucket, _Line, _Circle, _Square};
         _Tool _CurrentTool = _Tool._Pencil;
@@ -38,6 +43,8 @@ namespace PixelEdits
 		Vector2 _MouseDown;
 		Vector2 _MouseUp;
 
+		float _BucketLimit = 10.0f;
+		bool _GridToggle = false;
 
 		//Updater
 		System.Windows.Forms.Timer _Updater = new System.Windows.Forms.Timer();
@@ -62,13 +69,50 @@ namespace PixelEdits
 			_Updater.Tick += Update;
 			_Updater.Start();
 
-            UpdateSize();
-        }
+
+
+			FileInfo file = new FileInfo("Options.txt");
+			if (!file.Exists)
+			{
+				//Create Options file
+				FileStream F = new FileStream("Options.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+				F.Close();
+			}
+			else
+			{
+				StreamReader SR = new StreamReader(file.FullName, System.Text.Encoding.ASCII);
+				int lineNum = 0;
+				string line;
+				string[] words;
+				string[] TextVars = { "","","","",""};
+
+				while (!SR.EndOfStream)
+				{
+					line = SR.ReadLine();
+					words = line.Split(new string[] { ": " },StringSplitOptions.RemoveEmptyEntries);
+					TextVars[lineNum] = words[1];
+					lineNum++;
+				}
+
+
+				_LastFileName = TextVars[0];
+				_CurrentTool = (_Tool)Enum.Parse(typeof(_Tool), TextVars[1]);
+				_ToolSize = Convert.ToInt32(TextVars[2]);
+				SizeNumUpDown.Value = _ToolSize;
+				_PrimaryColour = ColorTranslator.FromHtml(TextVars[3]);
+				_SecondaryColour = ColorTranslator.FromHtml(TextVars[4]);
+
+				SR.Close();
+			}
+
+			UpdateSize();
+		}
 
 		// Update Form
         private void Update(object sender, EventArgs e)
 		{
 			Canvas.Refresh();
+			_BucketLimit++;
 		}
 
 		//------------------------------
@@ -107,9 +151,11 @@ namespace PixelEdits
 			if (openFile.ShowDialog() == DialogResult.OK)
 			{
 				string fileName = openFile.FileName;
-				Bitmap myImage = new Bitmap(fileName);
-
-				Canvas.BackgroundImage = myImage;
+				_LastFileName = fileName;
+				using (Bitmap myImage = new Bitmap(fileName))
+				{
+					Canvas.BackgroundImage = new Bitmap(myImage);
+				}
 			}
 		}
 
@@ -119,7 +165,17 @@ namespace PixelEdits
 			if (_LastFileName == "")
 				Save();
 			else
-				Canvas.BackgroundImage.Save(_LastFileName);
+			{
+				using (Bitmap image = new Bitmap(Canvas.BackgroundImage))
+				{
+					image.Save(Path.GetFullPath(_LastFileName));
+				}
+			}
+		}
+
+		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Save();
 		}
 
 		// Save Image
@@ -216,6 +272,8 @@ namespace PixelEdits
 		// Runs every frame
 		private void Canvas_Paint(object sender, PaintEventArgs e)
 		{
+				label1.Text = Convert.ToString(_BucketLimit);
+
 			if (_Editing && Canvas.BackgroundImage != null)
 			{
 				if (_PrevMousePos.x < 0.0f && _PrevMousePos.y < 0.0f)
@@ -245,11 +303,7 @@ namespace PixelEdits
 			_PrevMousePos = _CurrentMousePos;
             _MouseDown = new Vector2(e.Location.X,e.Location.Y);
 
-			if (_CurrentTool == _Tool._Bucket)
-			{
-				Bitmap _BMP = new Bitmap(Canvas.BackgroundImage);
-				FloodFill(_BMP, e.Location, _PrimaryColour);
-			}
+
 		}
 
 		// Runs once when the mouse is lifted on canvas
@@ -276,6 +330,16 @@ namespace PixelEdits
 				{
 					DrawCircle(Canvas.BackgroundImage);
 				}
+				else if (_CurrentTool == _Tool._Bucket)
+				{
+					if (_BucketLimit > 50.0f)
+					{
+						Bitmap _BMP = new Bitmap(Canvas.BackgroundImage);
+						Thread t = new Thread(delegate () { FloodFill(_BMP, e.Location, _PrimaryColour); });
+						t.Start();
+						_BucketLimit = 0.0f;
+					}
+				}
 			}
         }
 
@@ -287,9 +351,28 @@ namespace PixelEdits
 		}
 
 
-        //------------------------------
-        //	ToolBar Functions
-        //------------------------------
+		//------------------------------
+		//	ToolBar Functions
+		//------------------------------
+
+		private void PixelEdit_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			string NewPrimaryColour =  ColorTranslator.ToHtml(_PrimaryColour);
+			string NewSecondaryColour =  ColorTranslator.ToHtml(_SecondaryColour);
+
+
+			string[] line = 
+			{
+				"Last File: " + _LastFileName,
+				"CurrentTool: " + _CurrentTool,
+				"CurrentSize: " + _ToolSize,
+				"Prime Colour: " + NewPrimaryColour,
+				"Second Colour: " + NewSecondaryColour
+			};
+
+			System.IO.File.WriteAllLines(@"Options.txt",line);
+		}
+
 		private void SizeNumUpDown_ValueChanged(object sender, EventArgs e)
 		{
             UpdateSize();
@@ -302,7 +385,9 @@ namespace PixelEdits
             SizeIndicatorDot.Location = new Point(SizeIndicatorPanel.Width / 2 - SizeIndicatorDot.Width / 2, SizeIndicatorPanel.Height / 2 - SizeIndicatorDot.Height / 2);
             SizeIndicatorDot.BackColor = _PrimaryColour;
             SizeIndicatorPanel.BackColor = _SecondaryColour;
-        }
+			PrimaryColourPanel.BackColor = _PrimaryColour;
+			SecondaryColourPanel.BackColor = _SecondaryColour;
+		}
 
 
         // Square Tool
@@ -437,6 +522,10 @@ namespace PixelEdits
 			G.ResetTransform();
 		}
 
+		//----------------------
+		// Flood Fill Algorithm (Scan Line)
+		// https://rosettacode.org/wiki/Bitmap/Flood_fill
+		//----------------------
 		private static bool ColorMatch(Color a, Color b)
 		{
 			return (a.ToArgb() & 0xffffff) == (b.ToArgb() & 0xffffff);
@@ -444,6 +533,7 @@ namespace PixelEdits
 		
 		void FloodFill(Bitmap bmp, Point pt, Color replacementColor)
 		{
+
 			Color targetColor = bmp.GetPixel((int)_MouseDown.x, (int)_MouseDown.y);
 			if (targetColor == replacementColor)
 			{
@@ -476,10 +566,79 @@ namespace PixelEdits
 						q.Enqueue(new Point(e.X, e.Y + 1));
 					e.X++;
 				}
+
 			}
-		
 			Canvas.BackgroundImage = bmp;
 		}
+
+		private void GridToolButton_Click(object sender, EventArgs e)
+		{
+			//if (_GridToggle)
+			//	_GridToggle = false;
+			//else
+			//	_GridToggle = true;
+			//
+			//if (Canvas.BackgroundImage == null)
+			//{
+			//	Bitmap _BM = new Bitmap(Canvas.Width, Canvas.Height);
+			//	Canvas.BackgroundImage = _BM;
+			//}
+			//
+			//
+			//if (_GridToggle)
+			//{
+			//	Canvas.Visible = true;
+			//
+			//	Graphics _GraphicImage = Graphics.FromImage(Canvas.BackgroundImage);
+			//	Pen _Pen = new Pen(color: _PrimaryColour, width: 1);
+			//
+			//	for (int y = 0; y < Canvas.Size.Height; y++)
+			//	{
+			//		_GraphicImage.DrawLine(_Pen, 0, y * 2, Canvas.Size.Height * 2, y * 2);
+			//	}
+			//}
+			//else
+			//{
+			//	Canvas.Visible = false;
+			//}
+
+			int _GridCellSize = 20;
+
+			Bitmap _BMGI = new Bitmap(Canvas.BackgroundImage);
+			Graphics _GraphicImage = Graphics.FromImage(_BMGI);
+			Pen _Pen = new Pen(color: _PrimaryColour, width: 1);
+
+			for (int y = 0; y < Canvas.Size.Height; y++)
+			{
+				_GraphicImage.DrawLine(_Pen, 0, y * _GridCellSize, Canvas.Size.Height * _GridCellSize, y * _GridCellSize);
+			}
+
+			for (int x = 0; x < Canvas.Size.Width; x++)
+			{
+				_GraphicImage.DrawLine(_Pen, x * _GridCellSize, 0, x * _GridCellSize, Canvas.Size.Width * _GridCellSize);
+			}
+
+			Bitmap _BM = new Bitmap(Canvas.BackgroundImage);
+			Image imageBackground = Image.FromHbitmap(_BM.GetHbitmap());
+			Image imageOverlay = Image.FromHbitmap(_BMGI.GetHbitmap());
+
+			Image img = new Bitmap(imageBackground.Width, imageBackground.Height);
+			using (Graphics gr = Graphics.FromImage(img))
+			{
+				gr.DrawImage(imageBackground, new Point(0, 0));
+				gr.DrawImage(imageOverlay, new Point(0, 0));
+			}
+			Canvas.BackgroundImage = img;
+		}
+
+		private void openRecentToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			using (Bitmap myImage = new Bitmap(_LastFileName))
+			{
+				Canvas.BackgroundImage = new Bitmap(myImage);
+			}
+
+		}
+
 	}
 }
-//y she bee looking for me gold, spongie bob

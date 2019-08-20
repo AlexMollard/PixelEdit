@@ -70,7 +70,7 @@
 			this.Canvas = new System.Windows.Forms.Panel();
 			this.ToolBarPanel = new System.Windows.Forms.Panel();
 			this.OverlayToolButton = new System.Windows.Forms.Button();
-			this.GrifToolButton = new System.Windows.Forms.Button();
+			this.GridToolButton = new System.Windows.Forms.Button();
 			this.SquareToolButton = new System.Windows.Forms.Button();
 			this.EllipseToolButton = new System.Windows.Forms.Button();
 			this.LineToolButton = new System.Windows.Forms.Button();
@@ -86,19 +86,21 @@
 			this.GIFNextButton = new System.Windows.Forms.Button();
 			this.GIFPrevFrame = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.SizeNumUpDown = new System.Windows.Forms.NumericUpDown();
-			this.ToolSizeLabel = new System.Windows.Forms.Label();
-			this.ToolPrivateSettingBarLabel = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.ToolSettingNum = new System.Windows.Forms.NumericUpDown();
+			this.ToolPrivateSettingBarLabel = new System.Windows.Forms.Label();
+			this.ToolSizeLabel = new System.Windows.Forms.Label();
+			this.SizeNumUpDown = new System.Windows.Forms.NumericUpDown();
 			this.GifFramePanel = new System.Windows.Forms.Panel();
 			this.GifFrameScrollBar = new System.Windows.Forms.HScrollBar();
+			this.openRecentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.ToolBarPanel.SuspendLayout();
 			this.ColourBackDrop.SuspendLayout();
 			this.SizeIndicatorPanel.SuspendLayout();
 			this.panel1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.SizeNumUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ToolSettingNum)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.SizeNumUpDown)).BeginInit();
 			this.GifFramePanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -124,6 +126,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.openRecentToolStripMenuItem,
             this.toolStripSeparator,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
@@ -140,7 +143,7 @@
 			this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.newToolStripMenuItem.Name = "newToolStripMenuItem";
 			this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-			this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.newToolStripMenuItem.Size = new System.Drawing.Size(202, 38);
 			this.newToolStripMenuItem.Text = "&New";
 			this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
 			// 
@@ -149,15 +152,16 @@
 			this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
 			this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-			this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+			this.openToolStripMenuItem.Size = new System.Drawing.Size(201, 38);
 			this.openToolStripMenuItem.Text = "&Open";
 			this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator
 			// 
 			this.toolStripSeparator.Name = "toolStripSeparator";
-			this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
+			this.toolStripSeparator.Size = new System.Drawing.Size(193, 6);
 			// 
 			// saveToolStripMenuItem
 			// 
@@ -165,26 +169,29 @@
 			this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
 			this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
 			this.saveToolStripMenuItem.Text = "&Save";
 			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
 			// 
 			// saveAsToolStripMenuItem
 			// 
 			this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+			this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(202, 38);
 			this.saveAsToolStripMenuItem.Text = "Save &As";
+			this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(143, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(193, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
 			this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(196, 38);
 			this.exitToolStripMenuItem.Text = "E&xit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -435,7 +442,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.ToolBarPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(39)))));
 			this.ToolBarPanel.Controls.Add(this.OverlayToolButton);
-			this.ToolBarPanel.Controls.Add(this.GrifToolButton);
+			this.ToolBarPanel.Controls.Add(this.GridToolButton);
 			this.ToolBarPanel.Controls.Add(this.SquareToolButton);
 			this.ToolBarPanel.Controls.Add(this.EllipseToolButton);
 			this.ToolBarPanel.Controls.Add(this.LineToolButton);
@@ -463,18 +470,19 @@
 			this.OverlayToolButton.Text = "▒";
 			this.OverlayToolButton.UseVisualStyleBackColor = false;
 			// 
-			// GrifToolButton
+			// GridToolButton
 			// 
-			this.GrifToolButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.GrifToolButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.GrifToolButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.GrifToolButton.ForeColor = System.Drawing.Color.LightGray;
-			this.GrifToolButton.Location = new System.Drawing.Point(10, 192);
-			this.GrifToolButton.Name = "GrifToolButton";
-			this.GrifToolButton.Size = new System.Drawing.Size(35, 35);
-			this.GrifToolButton.TabIndex = 9;
-			this.GrifToolButton.Text = "#";
-			this.GrifToolButton.UseVisualStyleBackColor = false;
+			this.GridToolButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+			this.GridToolButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.GridToolButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.GridToolButton.ForeColor = System.Drawing.Color.LightGray;
+			this.GridToolButton.Location = new System.Drawing.Point(10, 192);
+			this.GridToolButton.Name = "GridToolButton";
+			this.GridToolButton.Size = new System.Drawing.Size(35, 35);
+			this.GridToolButton.TabIndex = 9;
+			this.GridToolButton.Text = "#";
+			this.GridToolButton.UseVisualStyleBackColor = false;
+			this.GridToolButton.Click += new System.EventHandler(this.GridToolButton_Click);
 			// 
 			// SquareToolButton
 			// 
@@ -652,6 +660,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.ToolSettingNum);
 			this.panel1.Controls.Add(this.ToolPrivateSettingBarLabel);
 			this.panel1.Controls.Add(this.ToolSizeLabel);
@@ -661,43 +670,15 @@
 			this.panel1.Size = new System.Drawing.Size(110, 278);
 			this.panel1.TabIndex = 4;
 			// 
-			// SizeNumUpDown
+			// label1
 			// 
-			this.SizeNumUpDown.Location = new System.Drawing.Point(3, 24);
-			this.SizeNumUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.SizeNumUpDown.Name = "SizeNumUpDown";
-			this.SizeNumUpDown.Size = new System.Drawing.Size(102, 20);
-			this.SizeNumUpDown.TabIndex = 0;
-			this.SizeNumUpDown.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-			this.SizeNumUpDown.ValueChanged += new System.EventHandler(this.SizeNumUpDown_ValueChanged);
-			// 
-			// ToolSizeLabel
-			// 
-			this.ToolSizeLabel.AutoSize = true;
-			this.ToolSizeLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.ToolSizeLabel.Location = new System.Drawing.Point(4, 4);
-			this.ToolSizeLabel.Name = "ToolSizeLabel";
-			this.ToolSizeLabel.Size = new System.Drawing.Size(54, 13);
-			this.ToolSizeLabel.TabIndex = 3;
-			this.ToolSizeLabel.Text = "Tool Size:";
-			// 
-			// ToolPrivateSettingBarLabel
-			// 
-			this.ToolPrivateSettingBarLabel.AutoSize = true;
-			this.ToolPrivateSettingBarLabel.ForeColor = System.Drawing.Color.LightGray;
-			this.ToolPrivateSettingBarLabel.Location = new System.Drawing.Point(4, 59);
-			this.ToolPrivateSettingBarLabel.Name = "ToolPrivateSettingBarLabel";
-			this.ToolPrivateSettingBarLabel.Size = new System.Drawing.Size(100, 13);
-			this.ToolPrivateSettingBarLabel.TabIndex = 4;
-			this.ToolPrivateSettingBarLabel.Text = "Private Tool Setting";
+			this.label1.AutoSize = true;
+			this.label1.BackColor = System.Drawing.Color.LightGray;
+			this.label1.Location = new System.Drawing.Point(35, 163);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(35, 13);
+			this.label1.TabIndex = 6;
+			this.label1.Text = "label1";
 			// 
 			// ToolSettingNum
 			// 
@@ -721,6 +702,44 @@
             0,
             0});
 			// 
+			// ToolPrivateSettingBarLabel
+			// 
+			this.ToolPrivateSettingBarLabel.AutoSize = true;
+			this.ToolPrivateSettingBarLabel.ForeColor = System.Drawing.Color.LightGray;
+			this.ToolPrivateSettingBarLabel.Location = new System.Drawing.Point(4, 59);
+			this.ToolPrivateSettingBarLabel.Name = "ToolPrivateSettingBarLabel";
+			this.ToolPrivateSettingBarLabel.Size = new System.Drawing.Size(100, 13);
+			this.ToolPrivateSettingBarLabel.TabIndex = 4;
+			this.ToolPrivateSettingBarLabel.Text = "Private Tool Setting";
+			// 
+			// ToolSizeLabel
+			// 
+			this.ToolSizeLabel.AutoSize = true;
+			this.ToolSizeLabel.ForeColor = System.Drawing.Color.LightGray;
+			this.ToolSizeLabel.Location = new System.Drawing.Point(4, 4);
+			this.ToolSizeLabel.Name = "ToolSizeLabel";
+			this.ToolSizeLabel.Size = new System.Drawing.Size(54, 13);
+			this.ToolSizeLabel.TabIndex = 3;
+			this.ToolSizeLabel.Text = "Tool Size:";
+			// 
+			// SizeNumUpDown
+			// 
+			this.SizeNumUpDown.Location = new System.Drawing.Point(3, 24);
+			this.SizeNumUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.SizeNumUpDown.Name = "SizeNumUpDown";
+			this.SizeNumUpDown.Size = new System.Drawing.Size(102, 20);
+			this.SizeNumUpDown.TabIndex = 0;
+			this.SizeNumUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+			this.SizeNumUpDown.ValueChanged += new System.EventHandler(this.SizeNumUpDown_ValueChanged);
+			// 
 			// GifFramePanel
 			// 
 			this.GifFramePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -741,6 +760,14 @@
 			this.GifFrameScrollBar.Size = new System.Drawing.Size(743, 17);
 			this.GifFrameScrollBar.TabIndex = 0;
 			// 
+			// openRecentToolStripMenuItem
+			// 
+			this.openRecentToolStripMenuItem.Name = "openRecentToolStripMenuItem";
+			this.openRecentToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+			this.openRecentToolStripMenuItem.Size = new System.Drawing.Size(201, 38);
+			this.openRecentToolStripMenuItem.Text = "Open Recent";
+			this.openRecentToolStripMenuItem.Click += new System.EventHandler(this.openRecentToolStripMenuItem_Click);
+			// 
 			// PixelEdit
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -758,6 +785,7 @@
 			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "PixelEdit";
 			this.Text = "Pixel Edit";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PixelEdit_FormClosing);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.ToolBarPanel.ResumeLayout(false);
@@ -765,8 +793,8 @@
 			this.SizeIndicatorPanel.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.SizeNumUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ToolSettingNum)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.SizeNumUpDown)).EndInit();
 			this.GifFramePanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -826,7 +854,7 @@
         private System.Windows.Forms.Button PencilToolButton;
         private System.Windows.Forms.Button BrushToolButton;
         private System.Windows.Forms.Button OverlayToolButton;
-        private System.Windows.Forms.Button GrifToolButton;
+        private System.Windows.Forms.Button GridToolButton;
         private System.Windows.Forms.Button SquareToolButton;
         private System.Windows.Forms.Button EllipseToolButton;
         private System.Windows.Forms.Button LineToolButton;
@@ -838,6 +866,8 @@
 		private System.Windows.Forms.Label ToolSizeLabel;
 		private System.Windows.Forms.Panel GifFramePanel;
 		private System.Windows.Forms.HScrollBar GifFrameScrollBar;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ToolStripMenuItem openRecentToolStripMenuItem;
 	}
 }
 
