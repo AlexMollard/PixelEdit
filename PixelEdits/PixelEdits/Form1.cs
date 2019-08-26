@@ -44,7 +44,7 @@ namespace PixelEdits
 		Vector2 _MouseUp;
 
 		float _BucketLimit = 10.0f;
-		bool _GridToggle = false;
+		//bool _GridToggle = false;
 
 		//Updater
 		System.Windows.Forms.Timer _Updater = new System.Windows.Forms.Timer();
@@ -198,9 +198,12 @@ namespace PixelEdits
 		{
 			NewImage _Settings = new NewImage(Canvas.Width, Canvas.Height);
 			_Settings.ShowDialog();
-
 			_NewSizeX = Convert.ToInt32(_Settings.WidthTextBox.Text);
 			_NewSizeY = Convert.ToInt32(_Settings.HeightTextBox.Text);
+			string _FileType = _Settings.FileType.Text;
+			_LastFileName = _Settings.NewFileName.Text + _FileType;
+			_LastFileName = Path.Combine(Environment.CurrentDirectory, _LastFileName);
+
 			if (_NewSizeX > 0 && _NewSizeY > 0)
 			{
 
@@ -272,7 +275,7 @@ namespace PixelEdits
 		// Runs every frame
 		private void Canvas_Paint(object sender, PaintEventArgs e)
 		{
-				label1.Text = Convert.ToString(_BucketLimit);
+			//label1.Text = Convert.ToString(_BucketLimit);
 
 			if (_Editing && Canvas.BackgroundImage != null)
 			{
@@ -640,5 +643,40 @@ namespace PixelEdits
 
 		}
 
+		//-----------------
+		//	Drag Drop
+		//-----------------
+
+
+		private void Canvas_DragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+				e.Effect = DragDropEffects.All;
+			else
+				e.Effect = DragDropEffects.None;
+		}
+
+		private void Canvas_DragDrop(object sender, DragEventArgs e)
+		{
+			string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+			FileInfo _File = new FileInfo(s[0]); 
+			var _Extensions = new List<string>() {".png",".jpeg",".bmp"};
+			if (_Extensions.Contains(_File.Extension))
+			{
+				_LastFileName = s[0];
+				using (Bitmap myImage = new Bitmap(s[0]))
+				{
+					Canvas.BackgroundImage = new Bitmap(myImage);
+				}
+			}
+		
+		}
+
+		private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			HelpForm _HelpForm = new HelpForm();
+			_HelpForm.ShowDialog();
+			_HelpForm.Dispose();
+		}
 	}
 }

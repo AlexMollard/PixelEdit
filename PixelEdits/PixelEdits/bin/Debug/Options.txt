@@ -1,5 +1,5 @@
-Last File: C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\bin\Debug\Data\NewFile
-CurrentTool: _Line
+Last File: C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\bin\Debug\NewFile.png
+CurrentTool: _Pencil
 CurrentSize: 10
 Prime Colour: #60E699
 Second Colour: #7B36C7

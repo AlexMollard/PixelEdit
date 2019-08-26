@@ -39,6 +39,8 @@ namespace PixelEdits
 			this.label1 = new System.Windows.Forms.Label();
 			this.NewFileName = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.FileType = new System.Windows.Forms.DomainUpDown();
 			((System.ComponentModel.ISupportInitialize)(this.HeightTextBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.WidthTextBox)).BeginInit();
 			this.SuspendLayout();
@@ -46,7 +48,7 @@ namespace PixelEdits
 			// HeightTextBox
 			// 
 			this.HeightTextBox.AutoSize = true;
-			this.HeightTextBox.Location = new System.Drawing.Point(68, 95);
+			this.HeightTextBox.Location = new System.Drawing.Point(88, 81);
 			this.HeightTextBox.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -64,7 +66,7 @@ namespace PixelEdits
 			// WidthTextBox
 			// 
 			this.WidthTextBox.AutoSize = true;
-			this.WidthTextBox.Location = new System.Drawing.Point(68, 69);
+			this.WidthTextBox.Location = new System.Drawing.Point(88, 55);
 			this.WidthTextBox.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -86,7 +88,7 @@ namespace PixelEdits
 			this.button1.BackColor = System.Drawing.SystemColors.ButtonFace;
 			this.button1.FlatAppearance.BorderSize = 0;
 			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.button1.Location = new System.Drawing.Point(21, 154);
+			this.button1.Location = new System.Drawing.Point(21, 157);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(257, 54);
 			this.button1.TabIndex = 1;
@@ -99,7 +101,7 @@ namespace PixelEdits
 			this.label3.AutoSize = true;
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label3.ForeColor = System.Drawing.Color.Black;
-			this.label3.Location = new System.Drawing.Point(18, 97);
+			this.label3.Location = new System.Drawing.Point(18, 83);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(48, 13);
 			this.label3.TabIndex = 12;
@@ -110,7 +112,7 @@ namespace PixelEdits
 			this.label2.AutoSize = true;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.Black;
-			this.label2.Location = new System.Drawing.Point(18, 71);
+			this.label2.Location = new System.Drawing.Point(18, 57);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(44, 13);
 			this.label2.TabIndex = 11;
@@ -121,7 +123,7 @@ namespace PixelEdits
 			this.SquareCheckBox.AutoSize = true;
 			this.SquareCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.SquareCheckBox.ForeColor = System.Drawing.Color.Black;
-			this.SquareCheckBox.Location = new System.Drawing.Point(177, 84);
+			this.SquareCheckBox.Location = new System.Drawing.Point(197, 68);
 			this.SquareCheckBox.Name = "SquareCheckBox";
 			this.SquareCheckBox.Size = new System.Drawing.Size(60, 17);
 			this.SquareCheckBox.TabIndex = 10;
@@ -142,9 +144,9 @@ namespace PixelEdits
 			// 
 			// NewFileName
 			// 
-			this.NewFileName.Location = new System.Drawing.Point(68, 121);
+			this.NewFileName.Location = new System.Drawing.Point(88, 107);
 			this.NewFileName.Name = "NewFileName";
-			this.NewFileName.Size = new System.Drawing.Size(169, 20);
+			this.NewFileName.Size = new System.Drawing.Size(149, 20);
 			this.NewFileName.TabIndex = 16;
 			this.NewFileName.Text = "NewFile";
 			// 
@@ -153,11 +155,34 @@ namespace PixelEdits
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label4.ForeColor = System.Drawing.Color.Black;
-			this.label4.Location = new System.Drawing.Point(18, 124);
+			this.label4.Location = new System.Drawing.Point(18, 110);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(43, 13);
 			this.label4.TabIndex = 17;
 			this.label4.Text = "Name:";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label5.ForeColor = System.Drawing.Color.Black;
+			this.label5.Location = new System.Drawing.Point(18, 135);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(63, 13);
+			this.label5.TabIndex = 18;
+			this.label5.Text = "File Type:";
+			// 
+			// FileType
+			// 
+			this.FileType.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.FileType.Items.Add(".PNG");
+			this.FileType.Items.Add(".JPG");
+			this.FileType.Items.Add(".BMP");
+			this.FileType.Location = new System.Drawing.Point(88, 134);
+			this.FileType.Name = "FileType";
+			this.FileType.Size = new System.Drawing.Size(149, 20);
+			this.FileType.TabIndex = 19;
+			this.FileType.Text = ".png";
 			// 
 			// NewImage
 			// 
@@ -165,6 +190,8 @@ namespace PixelEdits
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(128)))), ((int)(((byte)(60)))));
 			this.ClientSize = new System.Drawing.Size(295, 223);
+			this.Controls.Add(this.FileType);
+			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.NewFileName);
 			this.Controls.Add(this.HeightTextBox);
@@ -193,7 +220,9 @@ namespace PixelEdits
 		private System.Windows.Forms.Label label2;
 		public System.Windows.Forms.CheckBox SquareCheckBox;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox NewFileName;
 		private System.Windows.Forms.Label label4;
+		public System.Windows.Forms.TextBox NewFileName;
+		private System.Windows.Forms.Label label5;
+		public System.Windows.Forms.DomainUpDown FileType;
 	}
 }

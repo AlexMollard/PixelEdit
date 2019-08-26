@@ -42,3 +42,4 @@ C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj
 C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Debug\PixelEdits.exe
 C:\Users\alexm\Desktop\Programming\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Debug\PixelEdits.pdb
 C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Debug\PixelEdits.PixelEdit.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Debug\PixelEdits.HelpForm.resources

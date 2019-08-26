@@ -1,0 +1,11 @@
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\bin\Release\PixelEdits.exe.config
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\bin\Release\PixelEdits.exe
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\bin\Release\PixelEdits.pdb
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.csprojAssemblyReference.cache
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.PixelEdit.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.NewImage.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.Properties.Resources.resources
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.csproj.GenerateResource.cache
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.csproj.CoreCompileInputs.cache
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.exe
+C:\Users\s191067\Desktop\Repositories\PixelEdit.git\trunk\PixelEdits\PixelEdits\obj\Release\PixelEdits.pdb
